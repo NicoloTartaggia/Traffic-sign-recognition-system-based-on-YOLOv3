@@ -1,0 +1,22 @@
+%generare il pdf con il comando: pdflatex main.tex
+\input{Stile/Stile.tex}
+\input{Stile/FunzioniComandi.tex}
+
+
+\begin{document}
+\copertina
+%\tableofcontents
+\pagebreak
+
+%\listoffigures
+%\listoftables
+
+% Comando per testare con le linee più grosse
+\arrayrulewidth=1pt
+% Colori per la tabella
+\definecolor{title_row}{rgb}{0.13, 0.59, 0.95}
+\definecolor{title_text}{rgb}{1, 1, 1}
+
+\include{Res/Sezioni}
+
+\end{document}

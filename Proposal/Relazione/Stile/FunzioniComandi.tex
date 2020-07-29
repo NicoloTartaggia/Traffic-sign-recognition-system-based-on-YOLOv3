@@ -1,0 +1,51 @@
+% Creazione della copertina
+\newcommand{\copertina}{
+  \newgeometry{top=5cm}
+  
+  \begin{titlepage}
+  \begin{center}
+ 
+	\begin{tikzpicture}[remember picture, overlay, scale=.5, transform shape, opacity=0.15]
+		\node[anchor=center] at (current page.west){%
+		\pgfimage{Stile/logo.png}};
+	\end{tikzpicture}
+    
+  \vspace{1cm}
+
+  \begin{Huge}
+    \textbf{Vision and Cognitive Services course}\\
+    \vspace{20pt}  
+    \textbf{Project proposal:} \\
+    \textbf{Traffic signs detector}
+  \end{Huge}
+
+  \vspace{9pt}  
+  
+  \begin{large}
+  	\today
+  \end{large}	  
+  
+  \vspace{15pt}
+  
+  \vspace{15pt}
+
+  \begin{center}
+  	
+  	\begin{tabular}{ c c }
+		\textbf{Busin Lorenzo} & 1237580  \\
+		\textbf{Tartaggia Nicolò} & 1237784
+  	\end{tabular}
+  	
+  \end{center}
+
+  \end{center}
+  \end{titlepage}
+  
+  \restoregeometry
+}
+
+\newcommand{\code}[1]{\flextt{\texttt{#1}}}
+
+\newcommand{\gl}[1]{\textit{#1}\ped{g}}
+
+\newcommand{\sectiontitle}{}
