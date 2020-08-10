@@ -1,0 +1,14 @@
+numpy
+scipy
+tensorflow
+keras
+ipython
+jupyter
+six
+protobuf==3.4.0
+wheel
+scikit-image
+scikit-learn
+matplotlib
+opencv-python
+imutils
