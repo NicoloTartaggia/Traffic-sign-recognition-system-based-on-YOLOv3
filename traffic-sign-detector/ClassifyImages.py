@@ -29,7 +29,7 @@ labels = ['uneven road', 'speed bump', 'slippery road', 'dangerous curve to the 
 
 def load_image(path):
     i = image.load_img(path, target_size=(32, 32))
-    _org = cv2.imread("./additional_images/41.jpg")
+    _org = cv2.imread(path)
     i = img_to_array(i)
     i = np.expand_dims(i, axis=0)
 

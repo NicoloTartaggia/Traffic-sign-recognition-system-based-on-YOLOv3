@@ -36,6 +36,8 @@ def display_image(image):
 def open_and_resize_image(path, new_width=256, new_height=256):
     # _, filename = tempfile.mkstemp(suffix=".jpg")
     pil_image = Image.open(path)
+    width, height = pil_image.size
+    pil_image = pil_image.crop((width * 0.5, 0, width, height)) # crop the right part of the image
     pil_image = ImageOps.fit(pil_image, (new_width, new_height), Image.ANTIALIAS)
     pil_image_rgb = pil_image.convert("RGB")
     pil_image_rgb.save(path, format="JPEG", quality=90)
@@ -156,7 +158,7 @@ def run_detector(detector, path):
 
 def detect_img(image_url):
     start_time = time.time()
-    image_path = open_and_resize_image(image_url, 640, 480) # find the best resize to detect all signs
+    image_path = open_and_resize_image(image_url, 500, 750) # find the best resize to detect all signs
     run_detector(detector, image_path)
     end_time = time.time()
     print("Inference time:", end_time - start_time)
