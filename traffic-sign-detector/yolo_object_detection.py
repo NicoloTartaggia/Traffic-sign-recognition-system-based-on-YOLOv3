@@ -1,17 +1,22 @@
 import cv2
 import numpy as np
 import glob
+from PIL import Image, ImageDraw, ImageFont
 import random
 
 # Load Yolo
-#from cv2 import VideoCapture
+# from cv2 import VideoCapture
 
-net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+weights_path = "./weights/yolov3.weights"
+cfg_path = "./cfg/yolov3.cfg"
+net = cv2.dnn.readNet(weights_path, cfg_path)
 
 # Name custom object
 classes = []
 with open('coco.names', 'r') as f:
     classes = f.read().splitlines()
+
+#classes = ["traffic_sign"]
 
 # Images path
 images_path = glob.glob(r"C:\Users\loren\Desktop\prova\*.jpg")
@@ -20,11 +25,15 @@ layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
-# Insert here the path of your images
-random.shuffle(images_path)
 # loop through all the images
-print("qui")
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) #uncomment for webcam object detection
+#cap = cv2.VideoCapture("video.mp4")
+"""width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) + 0.5)
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) + 0.5)
+size = (width, height)
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('your_video.avi', fourcc, 20.0, size)"""
+
 #for img_path in images_path: #uncomment for img object detection
 while True:
     # Loading image
@@ -39,10 +48,11 @@ while True:
     net.setInput(blob)
     outs = net.forward(output_layers)
 
-    # Showing informations on the screen
+    # Showing information on the screen
     class_ids = []
     confidences = []
     boxes = []
+    conf = 0
     for out in outs:
         for detection in out:
             scores = detection[5:]
@@ -50,7 +60,6 @@ while True:
             confidence = scores[class_id]
             if confidence > 0.5:
                 # Object detected
-                print(class_id)
                 center_x = int(detection[0] * width)
                 center_y = int(detection[1] * height)
                 w = int(detection[2] * width)
@@ -63,23 +72,24 @@ while True:
                 boxes.append([x, y, w, h])
                 confidences.append(float(confidence))
                 class_ids.append(class_id)
-
     indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
     font = cv2.FONT_HERSHEY_PLAIN
+
     for i in range(len(boxes)):
         if i in indexes:
             x, y, w, h = boxes[i]
             label = str(classes[class_ids[i]])
+            conf = str('%.0f' % (confidences[i] * 100))
             color = colors[0]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, label, (x, y + 30), font, 3, color, 2)
+            cv2.putText(img, label + " " + conf + "%", (x, y), font, 1, color, 2)
 
+    # out.write(img)
     cv2.imshow("Image", img)
+    #key = cv2.waitKey(0)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+# cap.release()
+# out.release()
 cv2.destroyAllWindows()
-
-
-
-
