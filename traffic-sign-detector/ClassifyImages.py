@@ -2,7 +2,6 @@ from keras.preprocessing import image
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 import numpy as np
-import argparse
 import imutils
 import cv2
 
@@ -27,35 +26,27 @@ labels = ['uneven road', 'speed bump', 'slippery road', 'dangerous curve to the 
           'speed bump', 'end of priority road', 'priority road']
 
 
-def load_image(path):
-    i = image.load_img(path, target_size=(32, 32))
-    _org = cv2.imread(path)
+def load_image(img):
+    i = cv2.resize(img, (32, 32))
     i = img_to_array(i)
     i = np.expand_dims(i, axis=0)
 
-    return i, _org
+    return i
 
 
-def show_result(_org, _pred):
-    _org = imutils.resize(_org, width=400)
-    cv2.putText(_org, str(_pred[0]), (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
-    cv2.putText(_org, str(labels[_pred[0]]), (100, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
-    cv2.imwrite("./classify/result.png", _org)
+#def show_result(_org, _pred):
+#    _org = imutils.resize(_org, width=400)
+#    cv2.putText(_org, str(_pred[0]), (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
+#    cv2.putText(_org, str(labels[_pred[0]]), (100, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
+#    cv2.imwrite("./classify/result.png", _org)
 
 
-def classify_image(image_path, model_path):
-    img, org = load_image(image_path)
+def classify_image(img, model_path):
+    img = load_image(img)
     classifier = load_model(model_path)
     pred = classifier.predict_classes(img)
-    print(classifier.predict(img))
+    # print(classifier.predict(img))
     print("Class: " + str(pred[0]))
     print("Class label: " + str(labels[pred[0]]))
-    show_result(org, pred)
     print("The input image enriched with class number and label can be found in ./classify")
     return str(labels[pred[0]])
-
-
-if __name__ == '__main__':
-    image_path = "./additional_images/cropped.jpg"
-    model_path = "./models/CNN1.h5"
-    classify_image(image_path, model_path)
