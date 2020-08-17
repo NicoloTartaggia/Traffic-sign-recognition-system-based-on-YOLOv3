@@ -7,35 +7,35 @@ from ClassifyImages import *
 # from cv2 import VideoCapture
 
 """ -------------------------NET BUILDING ------------------------- """
-weights_path = "./weights/yolov3_training_last.weights"  # https://drive.google.com/drive/u/0/folders/1TeorKkxJUxaWaTnhHe-_XSxtLiDDktiP
+weights_path = "./weights/yolov3_training_2000.weights"  # https://drive.google.com/drive/u/0/folders/1TeorKkxJUxaWaTnhHe-_XSxtLiDDktiP
 cfg_path = "./cfg/yolov3_testing.cfg"
 net = cv2.dnn.readNet(weights_path, cfg_path)  # build net with cv2
 """ --------------------------------------------------------------- """
 
 # Model path
-model_path = "./models/CNN3.h5"
+model_path = "./models/CNN2.h5"
 # Images path
-images_path = glob.glob(r"../../../../../../Scaricati/images/*.jpg")
+images_path = glob.glob(r"C:\Users\loren\Desktop\test\*.jpg")
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
 """cap = cv2.VideoCapture(0)  # uncomment for webcam object detection
-cap = cv2.VideoCapture("video.mp4")
+cap = cv2.VideoCapture("videotestHD.mp4")
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) + 0.5)
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) + 0.5)
 size = (width, height)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('your_video.avi', fourcc, 20.0, size)"""
+writer = cv2.VideoWriter('your_video.avi', fourcc, 20.0, size)"""
 
-# loop through all the images
+#loop through all the images
 for img_path in images_path: # uncomment for img object detection
-    # while True: # For video detection
+#while True: # For video detection
         # Loading image
         img = cv2.imread(img_path)
-        img = cv2.resize(img, None, fx=0.4, fy=0.4)
-        # _, img = cap.read()
-        img = cv2.add(img, np.array([50.0]))
+        temp = cv2.imread(img_path)
+        #img = cv2.resize(img, None, fx=0.4, fy=0.4)
+        #_, img = cap.read()
         height, width, _ = img.shape
 
         """ ------------------ Detecting objects ------------------ """
@@ -77,18 +77,20 @@ for img_path in images_path: # uncomment for img object detection
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
-                crop_img = img[y:y + h, x:x + w]
-                label = classify_image(crop_img, model_path)
+                extra_border = 15
+                crop_img = temp[(y-extra_border):y + h + extra_border, (x-extra_border):x + w + extra_border]
+                cv2.imwrite("./classify/temp.jpg", crop_img)
+                label = classify_image("./classify/temp.jpg", model_path)
                 conf = str('%.0f' % (confidences[i] * 100))
-                color = [0, 0, 0]
+                color = [255, 0, 0]
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 cv2.putText(img, label + " " + conf + "%", (x, y), font, 1, color, 2)
 
-        # out.write(img)
+        #writer.write(img)
         cv2.imshow("Image", img)
         key = cv2.waitKey(0)
         #if cv2.waitKey(1) & 0xFF == ord('q'):
-        #    break
+            #break
 
 # cap.release()
 # out.release()

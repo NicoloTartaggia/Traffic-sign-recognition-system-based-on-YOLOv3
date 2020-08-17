@@ -222,11 +222,19 @@ def setup_data():
     #download_data()
 
     # this is the augmentation configuration used for training
-    train_datagen = ImageDataGenerator(
+    """train_datagen = ImageDataGenerator(
         rescale=1. / 255,
         shear_range=0.3,
         zoom_range=0.3,
-        horizontal_flip=True)
+        horizontal_flip=True)"""
+    train_datagen = ImageDataGenerator(
+        rescale=1. / 255,
+        rotation_range=20,
+        width_shift_range=0.3,
+        height_shift_range=0.3,
+        shear_range=0.3,
+        zoom_range=0.3,
+        horizontal_flip=False)
 
     # this is the augmentation configuration used for testing:
     # only rescaling
@@ -288,17 +296,17 @@ def train_test_evaluate(_model, _train_generator, _val_generator, _nb_train_samp
 if __name__ == '__main__':
     nb_train_samples = 4575
     nb_validation_samples = 2520
-    epochs = 50
+    epochs = 100
     batch_size = 16
 
     train_gen, val_gen = setup_data()
 
-    print("####################################################################################")
-    print("###################################  CNN1  #########################################")
-    print("####################################################################################")
-    model_cnn_1 = cnn_model_1()
-    m1_model, m1_hist, m1_score = train_test_evaluate(model_cnn_1, train_gen, val_gen, nb_train_samples,
-                                                      nb_validation_samples, batch_size, epochs, "CNN1")
+    #print("####################################################################################")
+    #print("###################################  CNN1  #########################################")
+    #print("####################################################################################")
+    #model_cnn_1 = cnn_model_1()
+    #m1_model, m1_hist, m1_score = train_test_evaluate(model_cnn_1, train_gen, val_gen, nb_train_samples,
+    #                                                  nb_validation_samples, batch_size, epochs, "CNN1")
 
     print("####################################################################################")
     print("###################################  CNN2  #########################################")
@@ -307,7 +315,7 @@ if __name__ == '__main__':
     m2_model, m2_hist, m2_score = train_test_evaluate(model_cnn_2, train_gen, val_gen, nb_train_samples,
                                                       nb_validation_samples, batch_size, epochs, "CNN2")
 
-    print("####################################################################################")
+    """print("####################################################################################")
     print("###################################  CNN3  #########################################")
     print("####################################################################################")
     model_cnn_3 = cnn_model_3()
@@ -319,4 +327,4 @@ if __name__ == '__main__':
     print("####################################################################################")
     model_lenet = cnn_model_lenet()
     m4_model, m4_hist, m4_score = train_test_evaluate(model_lenet, train_gen, val_gen, nb_train_samples,
-                                                      nb_validation_samples, batch_size, epochs, "LeNet")
+                                                      nb_validation_samples, batch_size, epochs, "LeNet")"""
