@@ -1,97 +1,128 @@
 import glob
-# from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 # import random
 from ClassifyImages import *
 
 # Load Yolo
 # from cv2 import VideoCapture
 
-""" -------------------------NET BUILDING ------------------------- """
-weights_path = "./weights/yolov3_training_2000.weights"  # https://drive.google.com/drive/u/0/folders/1TeorKkxJUxaWaTnhHe-_XSxtLiDDktiP
+
+""" ------------------------- NET BUILDING ------------------------- """
+weights_path = "./weights/yolov3_training_final.weights"  # https://drive.google.com/drive/u/0/folders/1TeorKkxJUxaWaTnhHe-_XSxtLiDDktiP
 cfg_path = "./cfg/yolov3_testing.cfg"
 net = cv2.dnn.readNet(weights_path, cfg_path)  # build net with cv2
-""" --------------------------------------------------------------- """
+layer_names = net.getLayerNames()
+output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+""" ---------------------------------------------------------------- """
 
 # Model path
 model_path = "./models/CNN2.h5"
-# Images path
-images_path = glob.glob(r"C:\Users\loren\Desktop\test\*.jpg")
 
-layer_names = net.getLayerNames()
-output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-"""cap = cv2.VideoCapture(0)  # uncomment for webcam object detection
-cap = cv2.VideoCapture("videotestHD.mp4")
-width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) + 0.5)
-height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) + 0.5)
-size = (width, height)
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-writer = cv2.VideoWriter('your_video.avi', fourcc, 20.0, size)"""
+def traffic_sign_detector(img):
+    height, width, _ = img.shape
 
-#loop through all the images
-for img_path in images_path: # uncomment for img object detection
-#while True: # For video detection
+    """ ------------------ Detecting objects ------------------ """
+    # The cv2.dnn.blobFromImage  function returns a blob  which is our input image after mean subtraction,
+    # normalizing, and channel swapping.
+    blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
+    net.setInput(blob)
+    # Storing detections made by forward procedure
+    outs = net.forward(output_layers)
+    """ ------------------------------------------------------- """
+
+    # Showing information on the screen
+    class_ids = []
+    confidences = []
+    boxes = []
+    conf = 0
+    for out in outs:
+        for detection in out:
+            scores = detection[5:]
+            class_id = np.argmax(scores)
+            confidence = scores[class_id]
+            if confidence > 0.6:
+                # Object detected
+                center_x = int(detection[0] * width)
+                center_y = int(detection[1] * height)
+                w = int(detection[2] * width)
+                h = int(detection[3] * height)
+
+                # Rectangle coordinates
+                x = int(center_x - w / 2)
+                y = int(center_y - h / 2)
+
+                boxes.append([x, y, w, h])
+                confidences.append(float(confidence))
+                class_ids.append(class_id)
+    indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
+
+    font = cv2.FONT_HERSHEY_PLAIN
+    for i in range(len(boxes)):
+        if i in indexes:
+            x, y, w, h = boxes[i]
+            extra_border = 0
+            ymin, xmin = (y - extra_border), (x - extra_border)
+            ymax, xmax = (y + h + extra_border), (x + w + extra_border)
+            if ymin < 0:
+                ymin = 0
+            if xmin < 0:
+                xmin = 0
+            if ymax > height:
+                ymax = height
+            if xmax > width:
+                xmax = width
+            crop_img = img[ymin:ymax, xmin:xmax]
+            cv2.imwrite("./classify/temp.jpg", crop_img)
+            label, prob = classify_image("./classify/temp.jpg", model_path)
+            total_confidence = prob * confidences[i]
+            color = [255, 204, 0]
+            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
+            cv2.rectangle(img, (x, y + 3), (x + (len(label) * 10), y - 10), color, -1)
+            cv2.putText(img, label + " " + str('%.0f' % (total_confidence * 100)) + "%", (x, y), font, 1, (0, 0, 0), 2)
+    return img
+
+
+def image_analysis(image_path):
+    for img_path in glob.glob(image_path):  # uncomment for img object detection
         # Loading image
         img = cv2.imread(img_path)
-        temp = cv2.imread(img_path)
-        #img = cv2.resize(img, None, fx=0.4, fy=0.4)
-        #_, img = cap.read()
-        height, width, _ = img.shape
-
-        """ ------------------ Detecting objects ------------------ """
-        # The cv2.dnn.blobFromImage  function returns a blob  which is our input image after mean subtraction,
-        # normalizing, and channel swapping.
-        blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
-        net.setInput(blob)
-        # Storing detections made by forward procedure
-        outs = net.forward(output_layers)
-        """ ------------------------------------------------------- """
-
-        # Showing information on the screen
-        class_ids = []
-        confidences = []
-        boxes = []
-        conf = 0
-        for out in outs:
-            for detection in out:
-                scores = detection[5:]
-                class_id = np.argmax(scores)
-                confidence = scores[class_id]
-                if confidence > 0.5:
-                    # Object detected
-                    center_x = int(detection[0] * width)
-                    center_y = int(detection[1] * height)
-                    w = int(detection[2] * width)
-                    h = int(detection[3] * height)
-
-                    # Rectangle coordinates
-                    x = int(center_x - w / 2)
-                    y = int(center_y - h / 2)
-
-                    boxes.append([x, y, w, h])
-                    confidences.append(float(confidence))
-                    class_ids.append(class_id)
-        indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
-        font = cv2.FONT_HERSHEY_PLAIN
-
-        for i in range(len(boxes)):
-            if i in indexes:
-                x, y, w, h = boxes[i]
-                extra_border = 15
-                crop_img = temp[(y-extra_border):y + h + extra_border, (x-extra_border):x + w + extra_border]
-                cv2.imwrite("./classify/temp.jpg", crop_img)
-                label = classify_image("./classify/temp.jpg", model_path)
-                conf = str('%.0f' % (confidences[i] * 100))
-                color = [255, 0, 0]
-                cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-                cv2.putText(img, label + " " + conf + "%", (x, y), font, 1, color, 2)
-
-        #writer.write(img)
+        # img = cv2.resize(img, None, fx=0.8, fy=0.8)
+        img = traffic_sign_detector(img)
         cv2.imshow("Image", img)
-        key = cv2.waitKey(0)
-        #if cv2.waitKey(1) & 0xFF == ord('q'):
-            #break
+        cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-# cap.release()
-# out.release()
-cv2.destroyAllWindows()
+
+def video_analysis(video_path, flag):  # flag 1 for real-time  video analysis
+    if flag == 1:
+        cap = cv2.VideoCapture(0)
+    else:
+        cap = cv2.VideoCapture(video_path)
+
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) + 0.5)
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) + 0.5)
+    size = (width, height)
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    writer = cv2.VideoWriter('output.avi', fourcc, 10, size)
+
+    # loop through all the frames
+    frames = 0
+    skip_frames = 3
+    while True:
+        _, img = cap.read()
+        if frames % skip_frames == 0:  # skip frames to speed up computation
+            height, width, _ = img.shape
+            img = traffic_sign_detector(img)
+            writer.write(img)
+            cv2.imshow("Image", img)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        frames += 1
+    cap.release()
+    writer.release()
+    cv2.destroyAllWindows()
+
+
+image_analysis(r"C:\Users\loren\Desktop\test\*.jpg")
+# video_analysis("videotestHD.mp4", 0)

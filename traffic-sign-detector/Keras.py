@@ -229,11 +229,11 @@ def setup_data():
         horizontal_flip=True)"""
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
-        rotation_range=20,
-        width_shift_range=0.3,
-        height_shift_range=0.3,
-        shear_range=0.3,
-        zoom_range=0.3,
+        rotation_range=10,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        shear_range=0.2,
+        zoom_range=0.2,
         horizontal_flip=False)
 
     # this is the augmentation configuration used for testing:
