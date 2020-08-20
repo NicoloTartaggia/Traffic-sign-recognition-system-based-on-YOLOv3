@@ -294,8 +294,8 @@ def train_test_evaluate(_model, _train_generator, _val_generator, _nb_train_samp
 
 
 if __name__ == '__main__':
-    nb_train_samples = 4575
-    nb_validation_samples = 2520
+    nb_train_samples = 5000
+    nb_validation_samples = 1500
     epochs = 100
     batch_size = 16
 

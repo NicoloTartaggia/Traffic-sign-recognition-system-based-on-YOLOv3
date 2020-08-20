@@ -61,7 +61,7 @@ def traffic_sign_detector(img):
     for i in range(len(boxes)):
         if i in indexes:
             x, y, w, h = boxes[i]
-            extra_border = 0
+            extra_border = 10
             ymin, xmin = (y - extra_border), (x - extra_border)
             ymax, xmax = (y + h + extra_border), (x + w + extra_border)
             if ymin < 0:
@@ -124,5 +124,5 @@ def video_analysis(video_path, flag):  # flag 1 for real-time  video analysis
     cv2.destroyAllWindows()
 
 
-image_analysis(r"C:\Users\loren\Desktop\test\*.jpg")
+image_analysis(r"C:\Users\loren\Desktop\train\*.jpg")
 # video_analysis("videotestHD.mp4", 0)
