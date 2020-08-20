@@ -7,7 +7,7 @@ import cv2
 
 labels = ['uneven road', 'speed bump', 'slippery road', 'dangerous curve to the left',
           'dangerous curve to the right', 'double dangerous curve to the left', 'double dangerous curve to the right',
-          'presence of children', 'bicycle crossing', 'domestic animal crossing', 'wild animals crossing', 'road works ahead',
+          'presence of children', 'bicycle crossing', 'domestic animal crossing', 'road works ahead',
           'traffic signals ahead', 'guarded railroad crossing', 'indefinite danger', 'road narrows',
           'road narrows from the left', 'road narrows from the right', 'priority at the next intersection',
           'intersection where the priority from the right is applicable', 'yield right of way',
@@ -15,11 +15,11 @@ labels = ['uneven road', 'speed bump', 'slippery road', 'dangerous curve to the 
           'maximum weights allowed', 'no cargo vehicles allowed', 'maximum width allowed', 'maximum height allowed',
           'no traffic allowed in both directions', 'no left turn', 'no right turn', 'no passing to the left',
           'maximum speed limit', 'mandatory walk for pedestrians and bicycles', 'mandatory direction (ahead)',
-          'mandatory direction (right)', 'mandatory direction (keep right)', 'mandatory direction (ahead and right)',
-          'mandatory direction (left)', 'mandatory direction (keep left)', 'mandatory direction (ahead and left)',
+          'mandatory direction (right)', 'mandatory direction (ahead and right)', 'mandatory direction (keep right)',
+          'mandatory direction (left)', 'mandatory direction (ahead and left)', 'mandatory direction (keep left)',
           'mandatory traffic cycle', 'mandatory bicycle path', 'shared path pedestrians/bicycle',
-          'no parking', 'no waiting or parking', 'priority over oncoming traffic', 'one way traffic',
-          'dead end', 'pedestrian crosswalk', 'bicycles crossing', 'parking area',
+          'no parking', 'no waiting or parking', 'priority over oncoming traffic', 'wild animals crossing',
+          'one way traffic', 'dead end', 'pedestrian crosswalk', 'bicycles crossing', 'parking area',
           'speed bump', 'end of priority road', 'priority road']
 
 
@@ -60,6 +60,6 @@ def classify_image(img_path, model_path):
     return str(labels[pred[0]]), pred_proba.max()
 
 
-#model_path = "./models/CNN2.h5"
+model_path = "./models/CNN2.h5"
 #img = cv2.imread(r"C:\Users\loren\Desktop\crop.jpg")
-#print(classify_image(r"C:\Users\loren\Desktop\temp.jpg", model_path))
+#print(classify_image(r"C:\Users\loren\Desktop\temp1.jpg", model_path))

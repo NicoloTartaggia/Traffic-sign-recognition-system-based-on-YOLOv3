@@ -17,7 +17,7 @@ train_data_dir = './data/Training'
 validation_data_dir = './data/Testing'
 # dimensions of our images.
 img_width, img_height = 32, 32
-num_classes = 62
+num_classes = 56
 
 
 def train_data(train_url):
