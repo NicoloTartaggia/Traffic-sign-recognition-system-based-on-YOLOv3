@@ -1,0 +1,225 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[breaklinks=true,bookmarks=false]{hyperref}
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+%\ifcvprfinal\pagestyle{empty}\fi
+\setcounter{page}{4321}
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{Traffic-sign recognition system based on multiclass classifier}
+
+\author{Lorenzo Busin\\
+{\tt\small lorenzo.busin@studenti.unipd.it}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Nicolò Tartaggia\\
+{\tt\small nicolo.tartaggia@studenti.unipd.it}
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%%%%%%%%% ABSTRACT
+\begin{abstract}
+   The aim of the project is to build a traffic signs detector able to recognize different types of traffic signs. The task is similar to the built-in computer of modern cars, in fact those  systems are capable to read traffic signs and to show, for example, which is speed limit in that road.
+   The system will be based on a convolutional neural network, a specific neural network particularly suitable for the area of image recognition. 
+   The main focus of this project is, given a road image with a traffic sign, to analyze the image, to detect the sign and to classify it via a multiclass classifier and then telling the user which kind of sign it is (or telling the driver what actions to perform in that scenario).
+   In addition to this, we have expanded the functionality of this project to make it works even with video clips, so that the recognition of traffic signs takes place in real time.
+\end{abstract}
+
+%%%%%%%%% BODY TEXT
+\section{Introduction 10\%}
+Describe the problem you are working on, why it's important, and an overview of your results.\\
+Image processing and its related algorithms are used to process digital images. Although it may seem recent technology, many of the techniques were developed in the 1960s. However, computers were expensive at this time and the digital imaging process required too much resources for many to even consider. The situation changed in the 1970s, when digital image processing began to be used massively as cheaper computers and dedicated hardware became available. With the accessibility to faster computers in the 2000s, digital image processing has become the most common form of image processing, able to compute different tasks such as image classification, video and real time detection. With the birth and growth of intelligent systems, Computer vision is increasingly used in the field of intelligent transport, which includes the subject of this paper: traffic sign recognition. These systems are typically based on detecting a region of interest (ROI), in which the traffic sign is located, recognising typical characteristics such as colour and geometric form.
+Traffic sign recognition can be seen as a third eye which concerns a wide area of usages such as self-driving cars.\\
+
+The application developed includes not only the standard functionality of image processing but also image and video detection and image classification. The original idea of combining different processes shows how powerful this tool can be.\\
+
+The system described in this paper detects the area of the original image where the potential traffic sign is located, and tries to classify it. This is made possible through a long and accurate training process, based on a dataset of normalized traffic signs. TODO: The process starts with a preprocessing stage for the input image, where the parameters of the image, such as resolution or contrast, are modified to guarantee that the filters and algorithms used later behave properly. When the parameters of the image have been adjusted, an edge detection algorithm is used in order to determine the potential areas of the image where a possible traffic sign may be located. The next step is to separate the regions of interest (ROIs) found in the image and obtain the potential traffic signs. Every potential traffic sign is submitted to a recognition process, using a cross-correlation algorithm that compares each one with a database, which contains patterns of traffic signs. This software includes a graphical user interface, which allows the user to control each stage of the application. The results obtained show a high success rate, dependent on the environmental conditions of the input image and its resolution
+%------------------------------------------------------------------------
+\section{Related Work 10\%}
+Discuss published work or similar apps that relates to your project. How is your approach similar or different from others?
+%------------------------------------------------------------------------
+\section{Dataset 15\%}
+Describe the data you are working with for your project. What type of data is it? Where did it come from? How much data are you working with? Did you have to do any preprocessing, filtering, etc., and why?
+%------------------------------------------------------------------------
+\section{Method 30\%}
+Discuss your approach for solving the problems that you set up in the introduction. Why is your approach the right thing to do? Did you consider alternative approaches? It may be helpful to include figures, diagrams, or tables to describe your method or compare it with others.
+%------------------------------------------------------------------------
+\section{Experiments 30\%}
+Discuss the experiments that you performed. The exact experiments will vary depending on the project, but you might compare with prior work, perform an ablation study to determine the impact of various components of your system, experiment with different hyperparameters or architectural choices. You should include graphs, tables, or other figures to illustrate your experimental results.
+%------------------------------------------------------------------------
+\section{Conclusion 5\%}
+Summarize your key results; what have you learned? Suggest ideas for future extensions.
+
+Please follow the guidelines that have been uploaded on Moodle. Remember also that the report should be no longer than six pages (plus references).
+
+%------------------------------------------------------------------------
+\section{Formatting your paper}
+
+All text must be in a two-column format. The total allowable width of the
+text area is $6\frac78$ inches (17.5 cm) wide by $8\frac78$ inches (22.54
+cm) high. Columns are to be $3\frac14$ inches (8.25 cm) wide, with a
+$\frac{5}{16}$ inch (0.8 cm) space between them. The main title (on the
+first page) should begin 1.0 inch (2.54 cm) from the top edge of the
+page. The second and following pages should begin 1.0 inch (2.54 cm) from
+the top edge. On all pages, the bottom margin should be 1-1/8 inches (2.86
+cm) from the bottom edge of the page for $8.5 \times 11$-inch paper; for A4
+paper, approximately 1-5/8 inches (4.13 cm) from the bottom edge of the
+page.
+
+%-------------------------------------------------------------------------
+\subsection{Margins and page numbering}
+
+All printed material, including text, illustrations, and charts, must be kept
+within a print area 6-7/8 inches (17.5 cm) wide by 8-7/8 inches (22.54 cm)
+high.
+Page numbers should be in footer with page numbers, centered and .75
+inches from the bottom of the page and make it start at the correct page
+number rather than the 4321 in the example.  To do this fine the line (around
+line 23)
+\begin{verbatim}
+%\ifcvprfinal\pagestyle{empty}\fi
+\setcounter{page}{4321}
+\end{verbatim}
+where the number 4321 is your assigned starting page.
+
+Make sure the first page is numbered by commenting out the first page being
+empty on line 46
+\begin{verbatim}
+%\thispagestyle{empty}
+\end{verbatim}
+
+
+%-------------------------------------------------------------------------
+\subsection{Type-style and fonts}
+
+Wherever Times is specified, Times Roman may also be used. If neither is
+available on your word processor, please use the font closest in
+appearance to Times to which you have access.
+
+MAIN TITLE. Center the title 1-3/8 inches (3.49 cm) from the top edge of
+the first page. The title should be in Times 14-point, boldface type.
+Capitalize the first letter of nouns, pronouns, verbs, adjectives, and
+adverbs; do not capitalize articles, coordinate conjunctions, or
+prepositions (unless the title begins with such a word). Leave two blank
+lines after the title.
+
+AUTHOR NAME(s) and AFFILIATION(s) are to be centered beneath the title
+and printed in Times 12-point, non-boldface type. This information is to
+be followed by two blank lines.
+
+The ABSTRACT and MAIN TEXT are to be in a two-column format.
+
+MAIN TEXT. Type main text in 10-point Times, single-spaced. Do NOT use
+double-spacing. All paragraphs should be indented 1 pica (approx. 1/6
+inch or 0.422 cm). Make sure your text is fully justified---that is,
+flush left and flush right. Please do not place any additional blank
+lines between paragraphs.
+
+Figure and table captions should be 9-point Roman type as in
+Table~\ref{mytable}. Short captions should be centred.
+
+\noindent Callouts should be 9-point Helvetica, non-boldface type.
+Initially capitalize only the first word of section titles and first-,
+second-, and third-order headings.
+
+FIRST-ORDER HEADINGS. (For example, {\large \bf 1. Introduction})
+should be Times 12-point boldface, initially capitalized, flush left,
+with one blank line before, and one blank line after.
+
+SECOND-ORDER HEADINGS. (For example, { \bf 1.1. Database elements})
+should be Times 11-point boldface, initially capitalized, flush left,
+with one blank line before, and one after. If you require a third-order
+heading (we discourage it), use 10-point Times, boldface, initially
+capitalized, flush left, preceded by one blank line, followed by a period
+and your text on the same line.
+
+%-------------------------------------------------------------------------
+\subsection{Footnotes}
+
+Please use footnotes\footnote {This is what a footnote looks like.  It
+often distracts the reader from the main flow of the argument.} sparingly.
+Indeed, try to avoid footnotes altogether and include necessary peripheral
+observations in
+the text (within parentheses, if you prefer, as in this sentence).  If you
+wish to use a footnote, place it at the bottom of the column on the page on
+which it is referenced. Use Times 8-point type, single-spaced.
+
+
+%-------------------------------------------------------------------------
+\subsection{References}
+
+List and number all bibliographical references in 9-point Times,
+single-spaced, at the end of your paper. When referenced in the text,
+enclose the citation number in square brackets, for
+example~\cite{Authors14}.  Where appropriate, include the name(s) of
+editors of referenced books.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+Method & Frobnability \\
+\hline\hline
+Theirs & Frumpy \\
+Yours & Frobbly \\
+Ours & Makes one's heart Frob\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Results. Ours is better.}
+\label{mytable}
+\end{table}
+
+%-------------------------------------------------------------------------
+\subsection{Illustrations, graphs, and photographs}
+
+All graphics should be centered.  Please ensure that any point you wish to
+make is resolvable in a printed copy of the paper.  Resize fonts in figures
+to match the font in the body text, and choose line widths which render
+effectively in print.  Many readers (and reviewers), even of an electronic
+copy, will choose to print your paper in order to read it.  You cannot
+insist that they do otherwise, and therefore must not assume that they can
+zoom in to see tiny details on a graphic.
+
+When placing figures in \LaTeX, it's almost always best to use
+\verb+\includegraphics+, and to specify the  figure width as a multiple of
+the line width as in the example below
+{\small\begin{verbatim}
+   \usepackage[dvips]{graphicx} ...
+   \includegraphics[width=0.8\linewidth]
+                   {myfile.eps}
+\end{verbatim}
+}
+
+
+{\small
+\bibliographystyle{ieee_fullname}
+\bibliography{egbib}
+}
+
+\end{document}
