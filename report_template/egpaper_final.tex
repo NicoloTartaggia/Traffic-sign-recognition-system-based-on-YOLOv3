@@ -42,39 +42,10 @@ Nicolò Tartaggia\\
 \maketitle
 %\thispagestyle{empty}
 
-%%%%%%%%% ABSTRACT
-\begin{abstract}
-   The aim of the project is to build a traffic signs detector able to recognize different types of traffic signs. The task is similar to the built-in computer of modern cars, in fact those  systems are capable to read traffic signs and to show, for example, which is speed limit in that road.
-   The system will be based on a convolutional neural network, a specific neural network particularly suitable for the area of image recognition. 
-   The main focus of this project is, given a road image with a traffic sign, to analyze the image, to detect the sign and to classify it via a multiclass classifier and then telling the user which kind of sign it is (or telling the driver what actions to perform in that scenario).
-   In addition to this, we have expanded the functionality of this project to make it works even with video clips, so that the recognition of traffic signs takes place in real time.
-\end{abstract}
+\let\clearpage\relax
+\include{Res/Sezioni}
 
 %%%%%%%%% BODY TEXT
-\section{Introduction 10\%}
-Describe the problem you are working on, why it's important, and an overview of your results.\\
-Image processing and its related algorithms are used to process digital images. Although it may seem recent technology, many of the techniques were developed in the 1960s. However, computers were expensive at this time and the digital imaging process required too much resources for many to even consider. The situation changed in the 1970s, when digital image processing began to be used massively as cheaper computers and dedicated hardware became available. With the accessibility to faster computers in the 2000s, digital image processing has become the most common form of image processing, able to compute different tasks such as image classification, video and real time detection. With the birth and growth of intelligent systems, Computer vision is increasingly used in the field of intelligent transport, which includes the subject of this paper: traffic sign recognition. These systems are typically based on detecting a region of interest (ROI), in which the traffic sign is located, recognising typical characteristics such as colour and geometric form.
-Traffic sign recognition can be seen as a third eye which concerns a wide area of usages such as self-driving cars.\\
-
-The application developed includes not only the standard functionality of image processing but also image and video detection and image classification. The original idea of combining different processes shows how powerful this tool can be.\\
-
-The system described in this paper detects the area of the original image where the potential traffic sign is located, and tries to classify it. This is made possible through a long and accurate training process, based on a dataset of normalized traffic signs. TODO: The process starts with a preprocessing stage for the input image, where the parameters of the image, such as resolution or contrast, are modified to guarantee that the filters and algorithms used later behave properly. When the parameters of the image have been adjusted, an edge detection algorithm is used in order to determine the potential areas of the image where a possible traffic sign may be located. The next step is to separate the regions of interest (ROIs) found in the image and obtain the potential traffic signs. Every potential traffic sign is submitted to a recognition process, using a cross-correlation algorithm that compares each one with a database, which contains patterns of traffic signs. This software includes a graphical user interface, which allows the user to control each stage of the application. The results obtained show a high success rate, dependent on the environmental conditions of the input image and its resolution
-%------------------------------------------------------------------------
-\section{Related Work 10\%}
-Discuss published work or similar apps that relates to your project. How is your approach similar or different from others?
-%------------------------------------------------------------------------
-\section{Dataset 15\%}
-Describe the data you are working with for your project. What type of data is it? Where did it come from? How much data are you working with? Did you have to do any preprocessing, filtering, etc., and why?
-%------------------------------------------------------------------------
-\section{Method 30\%}
-Discuss your approach for solving the problems that you set up in the introduction. Why is your approach the right thing to do? Did you consider alternative approaches? It may be helpful to include figures, diagrams, or tables to describe your method or compare it with others.
-%------------------------------------------------------------------------
-\section{Experiments 30\%}
-Discuss the experiments that you performed. The exact experiments will vary depending on the project, but you might compare with prior work, perform an ablation study to determine the impact of various components of your system, experiment with different hyperparameters or architectural choices. You should include graphs, tables, or other figures to illustrate your experimental results.
-%------------------------------------------------------------------------
-\section{Conclusion 5\%}
-Summarize your key results; what have you learned? Suggest ideas for future extensions.
-
 Please follow the guidelines that have been uploaded on Moodle. Remember also that the report should be no longer than six pages (plus references).
 
 %------------------------------------------------------------------------
