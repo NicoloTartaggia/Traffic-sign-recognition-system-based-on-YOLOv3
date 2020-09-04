@@ -1,6 +1,14 @@
 \section{Experiments 30\%}
 Discuss the experiments that you performed. The exact experiments will vary depending on the project, but you might compare with prior work, perform an ablation study to determine the impact of various components of your system, experiment with different hyperparameters or architectural choices. You should include graphs, tables, or other figures to illustrate your experimental results.
 %------------------------------------------------------------------------
+\subsection{Training of the models}
+For training we use convolutional weights that are pre-trained on ImageNet. We use weights from the darknet53 model\footnote{https://pjreddie.com/darknet/imagenet}. We used their pre-trained weights as initializers for the new training procedures. This technique is also called transfer learning and avoids learning every thing from scratch. We trained the detector model on Google Colab with 2 CPUs @ 2.2GHz, 
+13 GB of RAM and Nvidia Tesla K80 GPU. The YOLOv3 model was trained for 4000 epochs and it took about 24 hours and the YOLOv3 tiny model was trained for 4000 epochs and it took about 4 hours.
+
+
+We trained the classifier models with 4 CPUs Intel Core i7-6700HQ @ 2.6GHz, 8 GB of RAM and Nvidia GeForce GTX 950M.
+ 
+\subsection{Testing of the models}
 
 - Experiments using the custom made dataset for images and video: different scenarios and light conditions.
 - Difficulty of testing automatically the detection task so we dedicated a lot of time for manually testing 
