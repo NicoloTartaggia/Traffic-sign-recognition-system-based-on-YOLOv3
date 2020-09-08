@@ -1,6 +1,4 @@
 \section{Experiments 30\%}
-Discuss the experiments that you performed. The exact experiments will vary depending on the project, but you might compare with prior work, perform an ablation study to determine the impact of various components of your system, experiment with different hyperparameters or architectural choices. You should include graphs, tables, or other figures to illustrate your experimental results.
-%------------------------------------------------------------------------
 
 \begin{table}
 	\begin{center}
@@ -50,7 +48,7 @@ We trained the classifier models with 4 CPUs Intel Core i7-6700HQ @ 2.6 GHz, 8 G
 \subsection{Detection with classification testing}
 Analyzing the obtained results we selected the best combination of detector and classifier. As detector we had chosen the YOLO model because the detection task is fundamental for a good classification: in fact, for getting accurate predictions the bounding boxes have to be precise as possible. As classifier we had chosen the CNN2 model because it reached the best accuracy value with a reasonable train time. Testing automatically the fully working application is a very difficult and for this reason we spent a lot of time for testing it manually. Initially we tested the 2 step detection and classification for road images analysis and then we tested it for videos analysis. During the video analysis, in fact, each frame is processed independently like a single image. The dataset we used for the experiments is our custom made dataset, as above explained. We also compared the same road in different light conditions, like day and night. During the day, the detector is able to spot traffic signs from a great distance and hence to classify them. During the night, instead, signs can be spotted only at close range: the detection distance can be increased if the road is provided by street lamps which light up the signs enough for their identification. 
 The difficulty of this task is the variety of different scenarios that we have to face on road. According with Serna et al. \cite{gamezPaper} results, we found that most of the misclassified traffic signs show the following characteristics:
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
 	\item Bad lightning;
 	\item Strong motion blur;
 	\item Human added artifacts;
