@@ -11,7 +11,7 @@ import numpy as np
 
 train_data_dir = './data/Training'
 validation_data_dir = './data/Testing'
-img_width, img_height = 32, 32 # dimensions of images
+img_width, img_height = 32, 32
 num_classes = 56
 
 
@@ -37,7 +37,6 @@ def cnn_model_1():
     model.compile(loss='categorical_crossentropy',
                   optimizer='adam',
                   metrics=['accuracy'])
-
     return model
 
 
@@ -74,7 +73,6 @@ def cnn_model_2():
     model.compile(loss='categorical_crossentropy',
                   optimizer=opt,
                   metrics=['accuracy'])
-
     return model
 
 
@@ -121,12 +119,9 @@ def cnn_model_3():
     model.compile(loss='categorical_crossentropy',
                   optimizer=opt,
                   metrics=['accuracy'])
-
     return model
 
 
-# http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf
-# https://www.kaggle.com/tupini07/predicting-mnist-labels-with-a-cnn-in-keras
 def cnn_model_lenet():
     if K.image_data_format() == 'channels_first':
         input_shape = (3, img_width, img_height)
@@ -181,7 +176,7 @@ def cnn_model_lenet():
 
 
 def setup_data():
-    # this is the augmentation configuration used for training
+    # data augmentation configuration for training
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
         rotation_range=10,
@@ -206,29 +201,27 @@ def setup_data():
         target_size=(img_width, img_height),
         batch_size=batch_size,
         class_mode='categorical')
-
     return train_generator, validation_generator
 
 
-def plot_loss_accuracy(_model_hist, _epochs, _name):
+def plot_loss_accuracy(model_hist, epochs, name):
     plt.style.use("ggplot")
     plt.figure()
-    plt.plot(np.arange(0, _epochs), _model_hist.history["loss"], label="train_loss")
-    plt.plot(np.arange(0, _epochs), _model_hist.history["val_loss"], label="val_loss")
-    plt.plot(np.arange(0, _epochs), _model_hist.history["accuracy"], label="train_acc")
-    plt.plot(np.arange(0, _epochs), _model_hist.history["val_accuracy"], label="val_acc")
-    plt.title("Training Loss and Accuracy Belgium Traffic Sign Dataset\n Model: " + _name)
+    plt.plot(np.arange(0, epochs), model_hist.history["loss"], label="train_loss")
+    plt.plot(np.arange(0, epochs), model_hist.history["val_loss"], label="val_loss")
+    plt.plot(np.arange(0, epochs), model_hist.history["accuracy"], label="train_acc")
+    plt.plot(np.arange(0, epochs), model_hist.history["val_accuracy"], label="val_acc")
+    plt.title("Training Loss and Accuracy Belgium Traffic Sign Dataset\n Model: " + name)
     plt.xlabel("Epoch #")
     plt.ylabel("Loss/Accuracy")
     plt.legend(loc="lower left")
-    plt.savefig("./figures/" + _name + ".png")
+    plt.savefig("./figures/" + name + ".png")
 
     return None
 
 
 def train_test_evaluate(model, train_generator, val_generator, nb_train_samples, nb_val_samples,
                         batch_size, epochs, model_name):
-
     hist = model.fit_generator(train_generator,
                                steps_per_epoch=nb_train_samples // batch_size,
                                epochs=epochs,
@@ -254,7 +247,7 @@ if __name__ == '__main__':
 
     train_gen, val_gen = setup_data()
 
-    """print("####################################################################################")
+    print("####################################################################################")
     print("###################################  CNN1  #########################################")
     print("####################################################################################")
     model_cnn_1 = cnn_model_1()
@@ -283,7 +276,6 @@ if __name__ == '__main__':
                                                       nb_validation_samples, batch_size, epochs, "CNN3")
     time3 = time.time() - start3
     print(time3)
-    """
     print("####################################################################################")
     print("###################################  LeNet  ########################################")
     print("####################################################################################")

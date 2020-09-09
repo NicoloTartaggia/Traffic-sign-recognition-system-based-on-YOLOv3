@@ -1,15 +1,11 @@
 import glob
 import time
-from ClassifyImages import *
+import cv2
 
-# Load Yolo
-# from cv2 import VideoCapture
+from ClassifyImages import *
 
 
 """ ------------------------- NET BUILDING ------------------------- """
-#weights_path = "./weights/yolov3-tiny_training_last.weights"
-#cfg_path = "./cfg/yolov3-tiny_testing.cfg"
-
 weights_path = "./weights/yolov3_training_final.weights"
 cfg_path = "./cfg/yolov3_testing.cfg"
 
@@ -64,13 +60,17 @@ def traffic_sign_detector(img):
     for i in range(len(boxes)):
         if i in indexes:
             x, y, w, h = boxes[i]
+            if x < 0:
+                x = 0
+            if y < 0:
+                y = 0
             crop_img = img[y:y+h, x:x+w]
             cv2.imwrite("./classify/temp.jpg", crop_img)
             label, prob = classify_image("./classify/temp.jpg", model_path)
             total_confidence = prob * confidences[i]
-            color = [255, 204, 0]
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.rectangle(img, (x, y + 3), (x + (len(label) * 10), y - 10), color, -1)
+            color = [0, 255, 255]
+            cv2.rectangle(img, (x, y), (x + w, y + h), color, 4)
+            cv2.rectangle(img, (x, y + 3), (x + (len(label) * 11), y - 10), color, -1)
             cv2.putText(img, label + " " + str('%.0f' % (total_confidence * 100)) + "%", (x, y), font, 1, (0, 0, 0), 2)
     return img
 
@@ -147,7 +147,6 @@ def image_analysis(image_path):
     for img_path in glob.glob(image_path):
         # Loading image
         img = cv2.imread(img_path)
-        # img = cv2.resize(img, None, fx=0.8, fy=0.8)
         img = traffic_sign_detector(img)
         cv2.imshow("Image", img)
         cv2.waitKey(0)
@@ -184,6 +183,7 @@ def video_analysis(video_path, flag):  # flag 1 for real-time  video analysis
     cv2.destroyAllWindows()
 
 
-#image_analysis(r"C:\Users\loren\Desktop\validation_set\*.jpg")
-#video_analysis("videotestHD.mp4", 0)
-print(test_detector_accuracy(r"C:\Users\loren\Desktop\validation_set"))
+if __name__ == '__main__':
+    image_analysis(r"C:\Users\loren\Desktop\train\*.jpg")
+    #video_analysis("nightFHD.mp4", 0)
+    # print(test_detector_accuracy(r"C:\Users\loren\Desktop\validation_set"))
