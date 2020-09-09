@@ -15,7 +15,7 @@ The aim of the classifier is to pick the right class for each input image, but i
 	\includegraphics[width=0.6\linewidth]{Res/Immagini/differences.png}
 	\caption{Differences between signs of the same class}\label{}
 \end{figure}
-To fix this issue, we manually added some images to training and validation data for classes which suffer this problem. Also, we adopted the augmentation technique to build a more generalized dataset and to prevent the overfitting problem. We added small variations to the input images introducing rotation by 10\%, width and height resizing, shearing and zooming randomly up to a tenth. Is important to not exaggerate with the changes because it could cause problem with the classification, due to the fact that some signs have specific orientation.
+To fix this issue, we manually added some images to training and validation data for classes which suffer this problem. Also, we adopted the augmentation technique to build a more generalized dataset and to prevent the overfitting problem. We added small variations to the input images introducing rotation by 10\%, width and height resizing, shearing and zooming randomly up to a tenth. It is important to not exaggerate with the changes because it could cause problem with the classification, due to the fact that some signs have specific orientation.
 
 \subsection{Custom made test dataset}
 The application is supposed to work in real-time situations and for this reason we recorded some videos using a front car camera. For video recording we have used an iPhone XR setting the quality on 1080p and 30 fps. We've taken short videos, from 30 seconds to a minute, for testing how good the detector and the classifier works.
