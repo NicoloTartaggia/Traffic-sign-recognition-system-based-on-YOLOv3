@@ -118,7 +118,7 @@ def cnn_model_3():
 
     model.compile(loss='categorical_crossentropy',
                   optimizer=opt,
-                  metrics=['accuracy'])
+                  metrics=['accuracy', 'mse'])
     return model
 
 
@@ -231,6 +231,8 @@ def train_test_evaluate(model, train_generator, val_generator, nb_train_samples,
     score = model.evaluate_generator(val_generator, nb_val_samples)
     print("Test loss: ", score[0])
     print("Test accuracy: ", score[1])
+    print("Test recal: ", score[2])
+    print("Test precision: ", score[3])
 
     model.summary()
     plot_loss_accuracy(hist, epochs, model_name)
@@ -242,30 +244,30 @@ def train_test_evaluate(model, train_generator, val_generator, nb_train_samples,
 if __name__ == '__main__':
     nb_train_samples = 5000
     nb_validation_samples = 1500
-    epochs = 100
+    epochs = 10
     batch_size = 16
 
     train_gen, val_gen = setup_data()
 
-    print("####################################################################################")
-    print("###################################  CNN1  #########################################")
-    print("####################################################################################")
-    model_cnn_1 = cnn_model_1()
-    start1 = time.time()
-    m1_model, m1_hist, m1_score = train_test_evaluate(model_cnn_1, train_gen, val_gen, nb_train_samples,
-                                                      nb_validation_samples, batch_size, epochs, "CNN1")
-    time1 = time.time() - start1
-    print(time1)
-
-    print("####################################################################################")
-    print("###################################  CNN2  #########################################")
-    print("####################################################################################")
-    model_cnn_2 = cnn_model_2()
-    start2 = time.time()
-    m2_model, m2_hist, m2_score = train_test_evaluate(model_cnn_2, train_gen, val_gen, nb_train_samples,
-                                                      nb_validation_samples, batch_size, epochs, "CNN2")
-    time2 = time.time() - start2
-    print(time2)
+    #print("####################################################################################")
+    #print("###################################  CNN1  #########################################")
+    #print("####################################################################################")
+    #model_cnn_1 = cnn_model_1()
+    #start1 = time.time()
+    #m1_model, m1_hist, m1_score = train_test_evaluate(model_cnn_1, train_gen, val_gen, nb_train_samples,
+    #                                                  nb_validation_samples, batch_size, epochs, "CNN1")
+    #time1 = time.time() - start1
+    #print(time1)
+#
+    #print("####################################################################################")
+    #print("###################################  CNN2  #########################################")
+    #print("####################################################################################")
+    #model_cnn_2 = cnn_model_2()
+    #start2 = time.time()
+    #m2_model, m2_hist, m2_score = train_test_evaluate(model_cnn_2, train_gen, val_gen, nb_train_samples,
+    #                                                  nb_validation_samples, batch_size, epochs, "CNN2")
+    #time2 = time.time() - start2
+    #print(time2)
 
     print("####################################################################################")
     print("###################################  CNN3  #########################################")
@@ -274,14 +276,14 @@ if __name__ == '__main__':
     start3 = time.time()
     m3_model, m3_hist, m3_score = train_test_evaluate(model_cnn_3, train_gen, val_gen, nb_train_samples,
                                                       nb_validation_samples, batch_size, epochs, "CNN3")
-    time3 = time.time() - start3
-    print(time3)
-    print("####################################################################################")
-    print("###################################  LeNet  ########################################")
-    print("####################################################################################")
-    model_lenet = cnn_model_lenet()
-    start4 = time.time()
-    m4_model, m4_hist, m4_score = train_test_evaluate(model_lenet, train_gen, val_gen, nb_train_samples,
-                                                      nb_validation_samples, batch_size, epochs, "LeNet")
-    time4 = time.time() - start4
-    print(time4)
+    #time3 = time.time() - start3
+    #print(time3)
+    #print("####################################################################################")
+    #print("###################################  LeNet  ########################################")
+    #print("####################################################################################")
+    #model_lenet = cnn_model_lenet()
+    #start4 = time.time()
+    #m4_model, m4_hist, m4_score = train_test_evaluate(model_lenet, train_gen, val_gen, nb_train_samples,
+    #                                                  nb_validation_samples, batch_size, epochs, "LeNet")
+    #time4 = time.time() - start4
+    #print(time4)
