@@ -27,7 +27,7 @@ Our classification process is based on Keras\footnote{\url{https://keras.io/}}. 
 Our reference model called CNN3 is composed of 26 layers. The structure of the first 6 ones is repeated 3 times: two consecutive 2D convolutional layers with ReLu activation function each and $3$x$3$ kernel size, a layer for 2D max pooling operation and finally a layer for the dropout. The inputs are then flattened and pass through some dense layers. The other models, CNN1 and CNN2, are a simplified version of CNN3. We also implemented the LeNet architecture to test our classifier with a known convolutional neural network and to compare our experiments.\\
 The classifier is built with Keras \texttt{load\_model} method and is used to compute the final label for the input image and its associated probability.
 \begin{figure}[h]
-	\centering\includegraphics[scale=0.5]{Res/Immagini/classExample.png}	
+	\centering\includegraphics[scale=0.5]{Res/Immagini/classExample.jpg}	
 	\caption{Final output}
 \end{figure}
 %------------------------------------------------------------------------
