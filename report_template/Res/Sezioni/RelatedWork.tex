@@ -1,16 +1,16 @@
 \section{Related Work 10\%}
 The idea behind this project is the development of an object recognition system. The term recognition refers to a suite of challenging computer vision tasks which can be divided into three categories:
 \begin{itemize}[noitemsep,topsep=0pt]
-	\item\textbf{image classification}: predict the type or class of an object in an image;
-	\item\textbf{object localization}: locate the presence of objects in an image and indicate their location with a bounding box;
-	\item\textbf{object detection}: locate the presence of objects with a bounding box and types or classes of the located objects in an image.
+	\item\textbf{Image classification}: predict the type or class of an object in an image;
+	\item\textbf{Object localization}: locate the presence of objects in an image and indicate their location with a bounding box;
+	\item\textbf{Object detection}: locate the presence of objects with a bounding box and types or classes of the located objects in an image.
 \end{itemize}
 In the last few years many application have been developed to explore different scenarios of object recognition through different techniques and deep learning models specifically dedicated \cite{wangMethods, tsrWithCnn, tsrWithCnn2}. Moreover with the continuous improvement of computing power available for the user, great progress has been made in the field of general object detection. The large amount of online projects and papers demonstrate how this field is growing year after year.\\
 Our application aims to contribute to the traffic sign recognition problem, exploring the latest approaches of object detection and image classification. Here we present some published works related to our project. Also, readers are referred to the following surveys for more details \cite{tsr20}.
 
 \subsection{Traditional methods}
-Traditional traffic sign detection methods can be summarized in colour-based methods and shape-based methods. This phase includes image preprocessing, enhancement and segmentation according to the base attributes of colour and shape. Given an image, the goal is to detect potential pixel areas which is the region of interest where an object may be located. Then the potential traffic sign is normalized in order to enter the classification phase.\\
-Creusen et al. \cite{CreusenHog} propose a system based on Histogram of Oriented Gradients (HOG) algorithm. Using the colour and shape informations they show that system performances improves because the gradient is less dependent on the background contents. Wang et al. \cite{WangRGB} try to reduce the impact of lightning conditions with a RGB normalization process. These methods, among others similar ones, suffer the environment features of the image. Anyway, they reach significant results.\\
+Traditional traffic sign detection methods can be summarized in color-based methods and shape-based methods. This phase includes image preprocessing, enhancement and segmentation according to the base attributes of color and shape. Given an image, the goal is to detect potential pixel areas which is the region of interest where an object may be located. Then the potential traffic sign is normalized in order to enter the classification phase.\\
+Creusen et al. \cite{CreusenHog} propose a system based on Histogram of Oriented Gradients (HOG) algorithm. Using the color and shape informations they show that system performances improves because the gradient is less dependent on the background contents. Wang et al. \cite{WangRGB} try to reduce the impact of lightning conditions with a RGB normalization process. These methods, among others similar ones, suffer the environment features of the image. Anyway, they reach significant results.\\
 For the classification purpose, researchers leaned on different machine learning algorithms. Support vector machine (SVM) is the most popular one \cite{soendoroSVM, greenSVM, rashidSVM}.
 
 \subsection{CNN-based methods}
