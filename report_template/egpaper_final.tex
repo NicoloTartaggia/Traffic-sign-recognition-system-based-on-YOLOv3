@@ -95,7 +95,7 @@ The Belgium Traffic Sign Dataset\footnote{\url{https://btsd.ethz.ch/shareddata}}
 	\includegraphics[width=0.6\linewidth]{Res/Immagini/differences.png}
 	\caption{Differences between signs of the same class}\label{}
 \end{figure}
-To fix this issue, we manually added some images to training and validation data for classes which suffer this problem. Also, we adopted the augmentation technique to build a more generalized dataset and to prevent the overfitting problem. We added small variations to the input images introducing rotation by 10\%, width and height resizing, shearing and zooming randomly up to a tenth. It is important to not exaggerate with the changes because it could cause problem with the classification, due to the fact that some signs have specific orientation.
+To fix this issue, we manually added some images to training and validation data for classes which suffer this problem. Also, we adopted the augmentation technique to build a more generalized dataset and to prevent the overfitting problem. We added small variations to the input images introducing rotation by 10\%, width and height resizing, shearing and zooming randomly up to a tenth. It is important to not exaggerate with the changes because it could cause problems with the classification, due to the fact that some signs have specific orientation.
 
 \subsection{Custom made test dataset}
 The application is supposed to work in real-time situations and for this reason we recorded some videos using a front car camera. For video recording we have used an iPhone XR setting the quality on 1080p and 30 fps. We've taken short videos, from 30 seconds to a minute, for testing how good the combination of the detector and the classifier works.
@@ -138,20 +138,20 @@ Initially we trained the models and tested them independently using the validati
 
 
 \subsection{Detection models}
-We trained the detector models on Google Colab with 2 CPUs @ 2.2 GHz, 13 GB of RAM and Nvidia Tesla K80 GPU. The YOLO model was trained for 4000 epochs with 64 batch size and it took about 24 hours and the tiny-YOLO model was trained for 4000 epoch with 64 batch size and it took about 4 hours.
+We trained the detector models on Google Colab with 2 CPUs Intel Xeon @ 2.30 GHz, 13 GB of RAM and Nvidia Tesla K80 GPU. The YOLO model was trained for 4000 epochs with 64 batch size and it took about 24 hours and the tiny-YOLO model was trained for 4000 epoch with 64 batch size and it took about 4 hours.
 For training  the models we used convolutional weights that are pre-trained on ImageNet model\footnote{\url{https://pjreddie.com/darknet/imagenet}}. Pre-trained weights was used as initializers for the new training procedures. This technique is also called transfer learning and avoids learning everything from scratch. The dataset used to compute this metric was the validation set manually built, as explained above. The computation of the accuracy value for a detection task is not trivial. We developed a specific method for this purpose. The main idea is that the detector selects with bounding boxes the position of the traffic signs, selecting the x and y coordinates of the top left corner, the width and the height of each sign, hence using the YOLO format as for the annotations which represented the ground-truth. So, we compared for each traffic signs one by one these values with 10\% of confidence: this value has been chosen considering the human error made during the dataset construction and a small prediction error. 
-The results (see Table \ref{yolo-metrics}) show up a substantial difference between the accuracy values but also a substantial difference on the train times. This is due to the fact that tiny-YOLO is a lighter version of the YOLO model. In any case, considering a detection as a bad one doesn't mean that the detection is wrong, but only not well defined for that sign and consequently implies a higher probability of error for the classifier.
+The results (see Table \ref{yolo-metrics}) show up a substantial difference between the accuracy values but also a substantial difference on the training times. This is due to the fact that tiny-YOLO is a lighter version of the YOLO model. In any case, considering a detection as a bad one doesn't mean that the detection is wrong, but only not well defined for that sign and consequently implies a higher probability of error for the classifier.
 
 
 \subsection{Classification models}
-We trained the classifier models with 4 CPUs Intel Core i7-6700HQ @ 2.6 GHz, 8 GB of RAM and Nvidia GeForce GTX 950M. All models were trained for 100 epochs with 16 batch size and they took different train times. The accuracy value of each models was computed after their training and it used the validation set, as explained above. This metric computes the percentage of correct predictions. The results (see Table \ref{class-metrics}) show up that CNN1 has obtained the worst accuracy value because of its shallowness. The other models reached good and similar accuracy values, but CNN3 achieved the best performance.
+We trained the classifier models with 4 CPUs Intel Core i7-6700HQ @ 2.6 GHz, 8 GB of RAM and Nvidia GeForce GTX 950M. All models were trained for 100 epochs with 16 batch size and they took different training times. The metrics values of each model were computed after their training using the validation set, as explained above. The results (see Table \ref{class-metrics}) show up that CNN1 has obtained the worst values because of its shallowness. The other models reached good and similar values, but CNN3 achieved the best performance.
 
 
 \subsection{Detection with classification testing}
-Analyzing the obtained results we selected the best combination of detector and classifier. As detector we had chosen the YOLO model because the detection task is fundamental for a good classification: in fact, for getting accurate predictions the bounding boxes have to be precise as possible. As classifier we had chosen the CNN3 model because it reached the best accuracy value with a reasonable train time. Testing automatically the fully working application was very difficult and for this reason we spent a lot of time for testing it manually. Initially, we tested the 2 step detection and classification for road images analysis and then we tested it for videos analysis. During the video analysis, in fact, each frame is processed independently like a single image. The dataset we used for the experiments is our custom made dataset, as above explained. We also compared the same road in different light conditions, like day and night. During the day, the detector is able to spot traffic signs from a long range and hence to classify them. During the night, instead, signs can be spotted only at close range: the detection distance can be increased if the road is provided by street lamps which light up the signs enough for their identification. 
+Analyzing the obtained results we selected the best combination of detector and classifier. As detector we had chosen the YOLO model because the detection task is fundamental for a good classification: in fact, for getting accurate predictions the bounding boxes have to be precise as possible. As classifier we had chosen the CNN3 model because it reached the best accuracy value with a reasonable training time. Testing automatically the fully working application was very difficult and for this reason we spent a lot of time for testing it manually. Initially, we tested the 2 step detection and classification for road images analysis and then we tested it for videos analysis. During the video analysis, in fact, each frame is processed independently like a single image. The dataset we used for the experiments is our custom made dataset, as above explained. We also compared the same road in different light conditions, like day and night. During the day, the detector is able to spot traffic signs from a long range and hence to classify them. During the night, instead, signs can be spotted only at close range: the detection distance can be increased if the road is provided by street lamps which light up the signs enough for their identification. 
 The difficulty of this task is the variety of different scenarios that we have to face on road. According with Serna et al. \cite{gamezPaper} results, we found that most of the misclassified traffic signs show the following characteristics:
 \begin{itemize}[noitemsep,topsep=0pt]
-	\item Bad lightning;
+	\item Bad lighting;
 	\item Strong motion blur;
 	\item Human added artifacts;
 	\item Poor image quality;
@@ -165,7 +165,7 @@ All of the elements listed above are commonly found on the roads and all of them
 	\begin{center}
 		\begin{tabular}{|c|c|c|}
 			\hline
-			Model & Accuracy & Train time (h) \\
+			Model & Accuracy & Training time (h) \\
 			\hline\hline
 			YOLO & 0.97 & 24 \\
 			tiny-YOLO & 0.84 & 4 \\
@@ -178,14 +178,14 @@ All of the elements listed above are commonly found on the roads and all of them
 
 \begin{table}[h!]
 	\begin{center}
-		\begin{tabular}{|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|}
 			\hline
-			Model & Accuracy & Train time (m) \\
+			Model & Accuracy & Precision & Recall & Training time (m) \\
 			\hline\hline
-			CNN1 & 0.86 & 7 \\
-			CNN2 & 0.95 & 41 \\
-			CNN3 & 0.96 & 23 \\
-			LeNet & 0.93 & 12 \\
+			CNN1 & 0.86 & 0.88 & 0.83 & 11 \\
+			CNN2 & 0.95 & 0.96 & 0.96 & 41 \\
+			CNN3 & 0.96 & 0.96 & 0.95 & 23 \\
+			LeNet & 0.92 & 0.93 & 0.90 & 12 \\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -194,19 +194,19 @@ All of the elements listed above are commonly found on the roads and all of them
 \end{table}
 %-------------------------------------------------------------------------
 \section{Conclusion}
-We proposed a solution for the detection and the classification of European traffic signs. We explored the world of autonomous vehicles, a new and growing topic. We adopted the modern state-of-the-art YOLO algorithm to build a fast object detection system, but it also isn't always very accurate like other CNN based system which focuses a lot on the objects to detect but at the same time are much slower. This work is very complex due to the different factors that can influence the detection or the classification.\\
+We proposed a solution for the detection and the classification of European traffic signs. We explored the world of autonomous vehicles, a new and growing topic. We adopted the modern state-of-the-art YOLO algorithm to build a fast object detection system, but it also isn't always very accurate like other CNN based system which focuses a lot on the objects to detect but at the same time are much slower. This work is very complex due to the different factors that can influence the detection or the classification.
 
-\noindent The strengths of our system are extensibility and modularity. We introduced a 2 step detection and classification model, this mean that the detection task and the classification task are independent from each other. One could change a model without modifying the other or changing the system's architecture. It is also possible to easily extend the number of classes of the classifier.\\
+The strengths of our system are extensibility and modularity. We introduced a 2 step detection and classification model, this mean that the detection task and the classification task are independent from each other. One could change a model without modifying the other or changing the system's architecture. It is also possible to easily extend the number of classes of the classifier.
 
-\noindent The drafting of this paper helped us to understand and to exercise on finding new solutions and carrying out experiments quickly, establishing metrics for their evaluation and comparison. The operation that took the longest time was the training of models and that made more difficult trying out new ideas or experiments. We learned the state-of-the-art YOLO algorithm for object detection, making use of methods from the libraries OpenCV and Keras. We also experienced how to deal with papers extracting valuable information and applying it in our work.\\
+The drafting of this paper helped us to understand and to exercise on finding new solutions and carrying out experiments quickly, establishing metrics for their evaluation and comparison. The operation that took the longest time was the training of models and that made more difficult trying out new ideas or experiments. We learned the state-of-the-art YOLO algorithm for object detection, making use of methods from the libraries OpenCV and Keras. We also experienced how to deal with papers extracting valuable information and applying it in our work.
 
-\noindent In future work we intent to:
+In future work we intent to:
 \begin{itemize}[noitemsep,topsep=0pt]
 	\item Test the model using the newest YOLOv4, the recent release of the fourth version of YOLO algorithm which should offers better performance;
 	\item Expand the dataset including new traffic sign classes or expanding classes already present like speed limit signals in order to build a more precise model;
 	\item Add images for that classes which suffer the problem of intra-class appearance differences;
 	\item Use custom loss function to obtain more accurate detections;
-	\item Try different data augmentation settings to improve the classifier accuracy, for example introducing photo-metric distortions like changing the brightness, saturation, contrast and noise or trying other interesting techniques of augmenting the images like CutOut\cite{cutout} which randomly masks out square regions of input during training  or Random Erasing\cite{random} which selects rectangle regions in an image and erases its pixels with random values, in order to improve robustness and performance of CNNs;
+	\item Try different data augmentation settings to improve the classifier accuracy, for example introducing photo-metric distortions like changing the brightness, saturation, contrast and noise or trying other interesting techniques of augmenting the images like CutOut \cite{cutout} which randomly masks out square regions of input during training  or Random Erasing \cite{random} which selects rectangle regions in an image and erases its pixels with random values, in order to improve robustness and performance of CNNs;
 	\item Try to implement the classifier through a functional model using the Keras functional API \footnote{\url{https://keras.io/guides/functional_api}}  which is a way to create models that are more flexible than the Sequential API. In fact, can handle models with non-linear topology, shared layers, and even multiple inputs or outputs in order to build graphs of layers.
 \end{itemize}
 %-------------------------------------------------------------------------
