@@ -1,5 +1,7 @@
+import keras
 from keras.preprocessing import image
 from keras.preprocessing.image import img_to_array
+from keras import metrics
 from keras.models import load_model
 import numpy as np
 
@@ -30,7 +32,7 @@ def load_image(path):
 
 def classify_image(img_path, model_path):
     img = load_image(img_path)
-    classifier = load_model(model_path)
+    classifier = load_model(model_path, compile=False)
     pred = classifier.predict_classes(img)
     pred_proba = classifier.predict(img)
     return str(labels[pred[0]]), pred_proba.max()

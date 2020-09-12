@@ -34,7 +34,6 @@ def traffic_sign_detector(img):
     class_ids = []
     confidences = []
     boxes = []
-    conf = 0
     for out in outs:
         for detection in out:
             scores = detection[5:]
@@ -70,8 +69,8 @@ def traffic_sign_detector(img):
             total_confidence = prob * confidences[i]
             color = [0, 255, 255]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 4)
-            cv2.rectangle(img, (x, y + 3), (x + (len(label) * 11), y - 10), color, -1)
-            cv2.putText(img, label + " " + str('%.0f' % (total_confidence * 100)) + "%", (x, y), font, 1, (0, 0, 0), 2)
+            #cv2.rectangle(img, (x, y + 3), (x + (len(label) * 12), y - 10), color, -1)
+            #cv2.putText(img, label + " " + str('%.0f' % (total_confidence * 100)) + "%", (x, y), font, 1, (0, 0, 0), 2)
     return img
 
 
