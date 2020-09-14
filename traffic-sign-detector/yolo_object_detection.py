@@ -15,7 +15,7 @@ output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 """ ---------------------------------------------------------------- """
 
 # Model path
-model_path = "./models/CNN3.h5"
+model_path = "./models/CNN2.h5"
 
 
 def traffic_sign_detector(img):
@@ -23,7 +23,7 @@ def traffic_sign_detector(img):
 
     """ ------------------ Detecting objects ------------------ """
     # The cv2.dnn.blobFromImage  function returns a blob  which is our input image after mean subtraction,
-    # normalizing, and channel swapping.
+    # normalizing, and channel swapping
     blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
     net.setInput(blob)
     # Storing detections made by forward procedure
@@ -69,11 +69,15 @@ def traffic_sign_detector(img):
             total_confidence = prob * confidences[i]
             color = [0, 255, 255]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 4)
-            #cv2.rectangle(img, (x, y + 3), (x + (len(label) * 12), y - 10), color, -1)
-            #cv2.putText(img, label + " " + str('%.0f' % (total_confidence * 100)) + "%", (x, y), font, 1, (0, 0, 0), 2)
+            if label == "stop":
+                cv2.rectangle(img, (x, y + 3), (x + (len(label) * 22), y - 10), color, -1)
+            else:
+                cv2.rectangle(img, (x, y + 3), (x + (len(label) * 12), y - 10), color, -1)
+            cv2.putText(img, label + " " + str('%.0f' % (total_confidence * 100)) + "%", (x, y), font, 1, (0, 0, 0), 2)
     return img
 
 
+# compute the detector accuracy
 def test_detector_accuracy(path):
     txt_files = glob.glob(path + "/*.txt")
     txt_cont = 0
@@ -91,7 +95,7 @@ def test_detector_accuracy(path):
 
         """ ------------------ Detecting objects ------------------ """
         # The cv2.dnn.blobFromImage  function returns a blob  which is our input image after mean subtraction,
-        # normalizing, and channel swapping.
+        # normalizing, and channel swapping
         blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
         net.setInput(blob)
         # Storing detections made by forward procedure
@@ -152,7 +156,7 @@ def image_analysis(image_path):
     cv2.destroyAllWindows()
 
 
-def video_analysis(video_path, flag):  # flag 1 for real-time  video analysis
+def video_analysis(video_path, flag):  # flag 1 for real-time video analysis
     if flag == 1:
         cap = cv2.VideoCapture(0)
     else:
@@ -162,27 +166,23 @@ def video_analysis(video_path, flag):  # flag 1 for real-time  video analysis
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) + 0.5)
     size = (width, height)
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    writer = cv2.VideoWriter('output.avi', fourcc, 10, size)
+    writer = cv2.VideoWriter('output.avi', fourcc, 20, size)
 
     # loop through all the frames
-    frames = 0
-    skip_frames = 3
     while True:
         _, img = cap.read()
-        if frames % skip_frames == 0:  # skip frames to speed up computation
-            height, width, _ = img.shape
-            img = traffic_sign_detector(img)
-            writer.write(img)
-            cv2.imshow("Image", img)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-        frames += 1
+        height, width, _ = img.shape
+        img = traffic_sign_detector(img)
+        writer.write(img)
+        cv2.imshow("Image", img)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
     cap.release()
     writer.release()
     cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
-    image_analysis(r"C:\Users\loren\Desktop\train\*.jpg")
-    #video_analysis("nightFHD.mp4", 0)
+    # image_analysis(r"C:\Users\loren\Desktop\train\*.jpg")
+    video_analysis("day.mp4", 0)
     # print(test_detector_accuracy(r"C:\Users\loren\Desktop\validation_set"))
